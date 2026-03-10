@@ -4,10 +4,12 @@ Infrastructure-as-code for the GourmetGram MLOps course project. This repo provi
 
 ## GPU Support (this branch)
 
-This branch adds support for dynamically attaching a GPU worker node to an existing CPU cluster:
-- `tf/kvm/gpu.tf` – Terraform config for GPU node
+This branch adds support for dynamically attaching a GPU worker node (node4) to an existing CPU cluster:
+- `tf/kvm/gpu.tf` – Terraform config for GPU node (CC-Ubuntu24.04-CUDA image)
 - `ansible/k8s/add_gpu_worker.yml` – Ansible playbook to add GPU worker (via Kubespray scale.yml)
-- `workflows/train-model-gpu.yaml` – Training workflow that schedules on GPU node
+- `ansible/post_k8s/post_k8s_gpu.yml` – GPU post-setup (NVIDIA container toolkit, device plugin, labels, taints)
+- `workflows/train-model-gpu.yaml` – Training workflow with GPU nodeSelector + toleration
+- `x_gpu.ipynb` – Quick-start notebook for GPU node setup
 
 ## Repo layout
 

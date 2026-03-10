@@ -9,7 +9,7 @@ variable "gpu_reservation" {
 variable "gpu_node_name" {
   description = "Name of the GPU node"
   type        = string
-  default     = "gpu-node1"
+  default     = "node4"
 }
 
 variable "gpu_node_ip" {
@@ -49,7 +49,7 @@ resource "openstack_networking_port_v2" "gpu_sharednet_port" {
 # GPU compute instance
 resource "openstack_compute_instance_v2" "gpu_node" {
   name        = "${var.gpu_node_name}-mlops-${var.suffix}"
-  image_name  = "CC-Ubuntu24.04"
+  image_name  = "CC-Ubuntu24.04-CUDA"
   flavor_id   = var.gpu_reservation
   key_pair    = var.key
 

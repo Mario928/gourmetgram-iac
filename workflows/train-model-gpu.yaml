@@ -209,16 +209,24 @@ spec:
         valueFrom:
           path: /var/run/argo/outputs/parameters/modelversion
     # Schedule training pod on GPU node
-    # Note: Students should label their GPU node with node-role=gpu after adding it
-    # kubectl label node <gpu-node-name> node-role=gpu
     nodeSelector:
       node-role: gpu
+    tolerations:
+    - key: "nvidia.com/gpu"
+      operator: "Equal"
+      value: "present"
+      effect: "NoSchedule"
     container:
       image: registry.kube-system.svc.cluster.local:5000/gourmetgram-train:latest
       command: [sh, -c]
       args:
         - |
           set -eu
+
+          # Verify GPU is accessible
+          echo "=== GPU Device Check ==="
+          ls -la /dev/nvidia* || echo "WARNING: No /dev/nvidia* devices found"
+
           python flow.py
 
           # Argo (emissary executor) requires output parameters to be written
