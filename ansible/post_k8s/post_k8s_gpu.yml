@@ -24,12 +24,12 @@
         state: present
         update_cache: yes
 
-    - name: Configure containerd to use NVIDIA runtime
-      command: nvidia-ctk runtime configure --runtime=containerd
+    - name: Configure Docker to use NVIDIA runtime
+      command: nvidia-ctk runtime configure --runtime=docker --set-as-default
 
-    - name: Restart containerd
+    - name: Restart Docker
       systemd:
-        name: containerd
+        name: docker
         state: restarted
 
 - name: Deploy NVIDIA Device Plugin and configure GPU node
